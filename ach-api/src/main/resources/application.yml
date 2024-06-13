@@ -1,0 +1,51 @@
+spring:
+  profiles:
+    actives: development
+  application:
+    name: mls
+  freemarker:
+    enabled: false
+  jpa:
+    properties:
+      hibernate:
+        formatSql: true
+        jdbc:
+          lob:
+            non_contextual_creation: true
+    databasePlatform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: false
+    hibernate:
+      ddlAuto: update
+      naming:
+        implicitStrategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
+    open-in-view: false
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/mls_db
+    username: mls
+    password: 123456
+    testOnBorrow: true
+    testWhileIdle: true
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 30000
+    validationQuery: SELECT 1
+    max-active: 3
+    max-idle: 1
+    max-wait: 8000
+    driverClassName: org.postgresql.Driver
+
+  main:
+    allow-bean-definition-overriding: true
+
+server:
+  error:
+    include-message: always
+  port: 8081
+  compression:
+    enabled: true
+    mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
+    min-response-size: 1024
+  http2:
+    enabled: true
+
+
