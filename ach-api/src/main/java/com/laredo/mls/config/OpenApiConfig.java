@@ -1,7 +1,6 @@
 package com.laredo.mls.config;
 
 
-
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
@@ -22,9 +21,12 @@ import io.swagger.v3.oas.annotations.servers.Server;
         ),
         servers = {
                 @Server(
-                        url = "http://localhost:8081",
+                        url = "http://172.16.61.15:8081",
                         description = " Servidor de desarrollo"
-                )
+                ), @Server(
+                url = "http://localhost:8081",
+                description = " Servidor de desarrollo"
+        )
         }
 )
 @SecurityScheme(
