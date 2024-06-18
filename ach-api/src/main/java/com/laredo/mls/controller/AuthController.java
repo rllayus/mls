@@ -5,6 +5,13 @@ import com.laredo.dto.OKAuthDto;
 import com.laredo.mls.config.JwtTokenProvider;
 import com.laredo.mls.web.AuthenticationDto;
 import com.laredo.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import static org.springframework.http.ResponseEntity.ok;
-
+@Tag(name = "auth", description = "API para procesos de autentificación")
 @Slf4j
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -37,7 +44,17 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<OKAuthDto> signin(@RequestBody AuthenticationDto data) {
+    @Operation(summary = "Autentificación de usuario",
+            description = "Método para autentificar a un usuario ",
+            tags = {"auth"},
+            responses = {
+                    @ApiResponse(description = "Operación satisfactorio", responseCode = "200", content = @Content(mediaType = "application/json", schema = @Schema(implementation = OKAuthDto.class))),
+                    @ApiResponse(responseCode = "404", description = "Recurso no encontrado", content = @Content),
+                    @ApiResponse(responseCode = "401", description = "Fallo de autentificación", content = @Content(schema = @Schema(hidden = true))),
+            })
+    public ResponseEntity<OKAuthDto> signin(
+            @Parameter(schema = @Schema(implementation = AuthenticationDto.class), description = "Request de autenticación")
+            @RequestBody AuthenticationDto data) {
         try {
             String token = validateAuthData(data);
             log.info("Sesión iniciada por el usuario: {}", data.getUsername());
