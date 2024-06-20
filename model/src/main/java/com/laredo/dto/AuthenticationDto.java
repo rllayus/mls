@@ -1,8 +1,7 @@
-package com.laredo.mls.web;
+package com.laredo.dto;
 
 import lombok.*;
 
-import java.io.Serial;
 import java.io.Serializable;
 
 @Getter

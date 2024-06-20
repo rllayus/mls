@@ -1,13 +1,10 @@
 package com.laredo.mls.controller;
 
 import com.laredo.dto.request.TransferRequestDto;
-import com.laredo.dto.response.BankResponseDto;
 import com.laredo.dto.response.TransferResponseDto;
-import com.laredo.mls.web.AuthenticationDto;
 import com.laredo.service.TransactionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -20,9 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
-@Tag(name = "transacciones", description = "API para realizar transacciones")
+@Tag(name = "transacciones", description = "API para realizar transacciones de prueba")
 @RestController
 @RequestMapping("v1/api/transferencia")
 public class TransactionController {
@@ -48,6 +43,7 @@ public class TransactionController {
         try {
             return ResponseEntity.ok(transactionService.transfer(dto));
         }catch (Exception e){
+            e.printStackTrace();
             return ResponseEntity.badRequest().build();
         }
 

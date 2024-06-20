@@ -16,7 +16,7 @@ public class TransactionServiceImpl implements TransactionService {
     private TransactionRespository transactionRespository;
 
     @Override
-    @Transactional
+    @Transactional(timeout = 30)
     public TransferResponseDto transfer(TransferRequestDto dto) {
         Transaction tr = new Transaction();
         tr.setOriginAccount(dto.getOriginAccount());
@@ -30,11 +30,22 @@ public class TransactionServiceImpl implements TransactionService {
         tr.setDescription(dto.getDescription());
         transactionRespository.save(tr);
 
+        sleep();
+
+        tr.setDescription("asdasdasdasdas");
+        this.transactionRespository.save(tr);
 
         return TransferResponseDto.builder()
                 .status(TransactionStatus.EN_TRANSITO)
                 .transactionCode(tr.getId())
                 .message("Mejoras de ricardo")
                 .build();
+    }
+    private void sleep(){
+        try {
+            Thread.sleep(90000);
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }
     }
 }
