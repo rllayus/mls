@@ -30,7 +30,6 @@ public class TransactionServiceImpl implements TransactionService {
         tr.setDescription(dto.getDescription());
         transactionRespository.save(tr);
 
-        sleep();
 
         tr.setDescription("asdasdasdasdas");
         this.transactionRespository.save(tr);

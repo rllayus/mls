@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Component;
 @ComponentScan(basePackages = {"com.laredo"})
 @EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true)
 @EnableJpaAuditing
+@EnableScheduling
 public class MlsApplication implements CommandLineRunner {
 
 	public static void main(String[] args) {
