@@ -3,14 +3,14 @@ package com.laredo.mls.controller;
 import com.laredo.UserEntity;
 import com.laredo.dto.OKAuthDto;
 import com.laredo.mls.config.JwtTokenProvider;
-import com.laredo.mls.web.AuthenticationDto;
+import com.laredo.dto.AuthenticationDto;
 import com.laredo.service.UserService;
+import com.laredo.service.client.ClientService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -34,13 +34,15 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
     private final UserService userService;
+    private final ClientService clientService;
 
     public AuthController(AuthenticationManager authenticationManager,
                           JwtTokenProvider jwtTokenProvider,
-                          UserService userService) {
+                          UserService userService, ClientService clientService) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenProvider = jwtTokenProvider;
         this.userService = userService;
+        this.clientService =clientService;
     }
 
     @PostMapping("/login")
@@ -58,6 +60,9 @@ public class AuthController {
         try {
             String token = validateAuthData(data);
             log.info("Sesión iniciada por el usuario: {}", data.getUsername());
+            AuthenticationDto authenticationDto = new AuthenticationDto("smorales", "123456");
+            OKAuthDto dto =clientService.login(authenticationDto);
+            log.info("Token: {}", dto.getToken());
             return ok(OKAuthDto.builder()
                     .username(data.getUsername())
                     .token(token)

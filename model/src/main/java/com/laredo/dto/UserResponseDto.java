@@ -12,7 +12,7 @@ import java.io.Serializable;
 @Setter
 @Data
 public class UserResponseDto implements Serializable {
-    private Long id;
+    private String id;
     private String name;
     private String userName;
     private String estadoUsuario;
@@ -24,7 +24,7 @@ public class UserResponseDto implements Serializable {
         this.estadoUsuario = userEntity.getEstadoUsuario().getEstado();
     }
 
-    public UserResponseDto(Long id, String name, String userName, EstadoUsuario estadoUsuario) {
+    public UserResponseDto(String id, String name, String userName, EstadoUsuario estadoUsuario) {
         this.id = id;
         this.name = name;
         this.userName = userName;

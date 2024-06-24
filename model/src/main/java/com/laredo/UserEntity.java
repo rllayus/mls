@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Comment;
+import org.hibernate.annotations.UuidGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,7 +22,8 @@ import java.util.List;
 public class UserEntity implements UserDetails {
     @Comment("Identificador de tabla")
     @Id
-    private Long id;
+    @UuidGenerator
+    private String id;
 
     @Comment("Nombre del usuario")
     @Column(name = "name", length = 60, nullable = false)
