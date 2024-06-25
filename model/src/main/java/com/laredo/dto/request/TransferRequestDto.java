@@ -30,4 +30,6 @@ public class TransferRequestDto implements Serializable {
     private BigDecimal amount;
     @JsonProperty("glosa")
     private String description;
+    @JsonProperty("id_mls")
+    private String idMls;
 }

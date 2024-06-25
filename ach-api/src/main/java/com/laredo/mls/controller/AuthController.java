@@ -60,9 +60,6 @@ public class AuthController {
         try {
             String token = validateAuthData(data);
             log.info("Sesión iniciada por el usuario: {}", data.getUsername());
-            //AuthenticationDto authenticationDto = new AuthenticationDto("smorales", "123456");
-            //OKAuthDto dto =clientService.login(authenticationDto);
-           // log.info("Token: {}", dto.getToken());
             return ok(OKAuthDto.builder()
                     .username(data.getUsername())
                     .token(token)

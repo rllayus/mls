@@ -25,4 +25,16 @@ public class Bank  extends AuditableEntity{
     @Column(name = "STATUS", length = 20, nullable = false)
     @Enumerated(EnumType.STRING)
     private BankStatus status;
+
+    @Column(name = "url", length = 200, nullable = true)
+    private String url;
+    @Column(name = "connect_timeout", nullable = true)
+    private Integer connectTimeout;
+    @Column(name = "read_timeout", nullable = true)
+    private Integer readTimeout;
+    @Column(name = "user_to_api", nullable = true)
+    private String user;
+    @Column(name = "password_to_api", nullable = true)
+    private String passwordToApi;
+
 }

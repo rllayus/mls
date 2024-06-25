@@ -6,8 +6,10 @@ import com.laredo.dto.response.TransferResponseDto;
 import com.laredo.enums.TransactionStatus;
 import com.laredo.repository.TransactionRespository;
 import com.laredo.service.TransactionService;
+import com.laredo.service.client.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -31,6 +33,7 @@ public class TransactionServiceImpl implements TransactionService {
         transactionRespository.save(tr);
 
 
+
         tr.setDescription("asdasdasdasdas");
         this.transactionRespository.save(tr);
 
@@ -40,6 +43,19 @@ public class TransactionServiceImpl implements TransactionService {
                 .message("Mejoras de ricardo")
                 .build();
     }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void saveTx(Transaction transaction) {
+        this.transactionRespository.save(transaction);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void update(Transaction transaction, TransactionStatus status) {
+
+    }
+
     private void sleep(){
         try {
             Thread.sleep(90000);
