@@ -56,7 +56,6 @@ public class WebSecurityConfiguration implements WebMvcConfigurer, Serializable 
                 .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .cors((cors) -> cors.configurationSource(apiConfigurationSource()));
-        ;
         return http.build();
     }
 

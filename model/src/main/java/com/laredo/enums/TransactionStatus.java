@@ -5,6 +5,7 @@ import lombok.Getter;
 @Getter
 public enum TransactionStatus {
     PENDIENTE,
-    EN_TRANSITO;
+    EN_TRANSITO,
+    PROCESADO;
 
 }
