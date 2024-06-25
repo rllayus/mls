@@ -6,6 +6,6 @@ import com.laredo.dto.request.TransferRequestDto;
 import com.laredo.dto.response.TransferResponseDto;
 
 public interface ClientService {
-    OKAuthDto login(AuthenticationDto okAuthDto);
+    OKAuthDto login(AuthenticationDto okAuthDto) throws Exception;
     TransferResponseDto transfer(String jwt, TransferRequestDto dto);
 }
