@@ -3,6 +3,7 @@ package com.laredo.mls.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -32,5 +33,19 @@ public class InjectConfiguration {
                 return Optional.of("ADMIN");
             }
         };
+    }
+
+
+    @Scheduled(fixedRate = 10000, zone = "America/La_Paz")
+    public void scheduled() {
+        System.out.println("10 segundos");
+    }
+    @Scheduled(cron = "0 0 23 * * ?")
+    public void scheduled2() {
+        System.out.println("scheduled");
+    }
+    @Scheduled(cron = "0 0/1 * * * ?")
+    public void scheduled3() {
+        System.out.println("Cada minuto");
     }
 }
