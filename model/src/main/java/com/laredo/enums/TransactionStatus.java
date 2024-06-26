@@ -6,6 +6,7 @@ import lombok.Getter;
 public enum TransactionStatus {
     PENDIENTE,
     EN_TRANSITO,
-    PROCESADO;
+    PROCESADO,
+    ERROR, TRANSACCION_NO_ENCONTRADA;
 
 }

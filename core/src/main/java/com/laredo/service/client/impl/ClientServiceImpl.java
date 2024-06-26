@@ -27,7 +27,7 @@ public class ClientServiceImpl implements ClientService {
 
         String urlCompleto = url + "/api/v1/authUser/login";
         System.out.println(urlCompleto);
-        RestTemplate restTemplate =new RestTemplate(getClientHttpRequestFactory(connectTimeout, readTimeout));
+        RestTemplate restTemplate = new RestTemplate(getClientHttpRequestFactory(connectTimeout, readTimeout));
         ResponseEntity<OKAuthDto> response = restTemplate
                 .postForEntity(urlCompleto,
                         new HttpEntity<>(okAuthDto, headers), OKAuthDto.class);
@@ -36,18 +36,27 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public TransferResponseDto transfer(String url, int connectTimeout, int readTimeout, String jwt, TransferRequestDto dto) {
+    public TransferResponseDto transfer(String url, int connectTimeout, int readTimeout, String user, String password, TransferRequestDto dto) {
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-        headers.set(HttpHeaders.AUTHORIZATION, "Bearer "+jwt);
 
-        RestTemplate restTemplate =new RestTemplate(getClientHttpRequestFactory(connectTimeout, readTimeout));
+        String jwt;
+        try {
+            AuthenticationDto authenticationDto = new AuthenticationDto();
+            authenticationDto.setUsername(user);
+            authenticationDto.setPassword(password);
+            jwt = login(url, connectTimeout, readTimeout, authenticationDto).getToken();
+        } catch (Exception e) {
+            throw e;
+        }
+
+        headers.set(HttpHeaders.AUTHORIZATION, "Bearer " + jwt);
+        RestTemplate restTemplate = new RestTemplate(getClientHttpRequestFactory(connectTimeout, readTimeout));
         ResponseEntity<TransferResponseDto> response = restTemplate
                 .postForEntity(url + "/v1/api/transferencia",
                         new HttpEntity<>(dto, headers), TransferResponseDto.class);
         return response.getBody();
     }
-
 
 
     private SimpleClientHttpRequestFactory getClientHttpRequestFactory(int connectTimeout, int readTimeout) {

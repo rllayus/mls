@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 public class TransactionServiceImpl implements TransactionService {
     @Autowired
@@ -52,8 +54,14 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void update(Transaction transaction, TransactionStatus status) {
+    public void update(String id, TransactionStatus status, String mensaje) {
+        this.transactionRespository.updateStatus(id, status, mensaje);
+    }
 
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<TransferResponseDto> findById(String id) {
+        return this.transactionRespository.obtenerTransaccion(id);
     }
 
     private void sleep(){

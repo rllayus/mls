@@ -7,5 +7,5 @@ import com.laredo.dto.response.TransferResponseDto;
 
 public interface ClientService {
     OKAuthDto login(String url, int connectTimeout, int readTimeout, AuthenticationDto okAuthDto);
-    TransferResponseDto transfer(String url, int connectTimeout, int readTimeout, String jwt, TransferRequestDto dto);
+    TransferResponseDto transfer(String url, int connectTimeout, int readTimeout, String user, String password, TransferRequestDto dto);
 }

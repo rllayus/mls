@@ -1,9 +1,7 @@
 package com.laredo;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.laredo.enums.TransactionStatus;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.UuidGenerator;
@@ -36,5 +34,18 @@ public class Transaction extends AuditableEntity{
     private BigDecimal amount;
     @Column(name = "DESCRIPTION", length = 250, nullable = true)
     private String description;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "STATUS", length = 50)
+    private TransactionStatus status;
+
+    @ManyToOne(optional = true, fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_BANK_DESTINATION", nullable = true, updatable = true)
+    private Bank bankDestino;
+
+    @ManyToOne(optional = true, fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_BANK_ORIGIN", nullable = true, updatable = true)
+    private Bank bankOrigen;
+    @Column(name = "MESSAGE", length = 200)
+    private String message;
 
 }

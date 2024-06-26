@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "transacciones", description = "API para realizar transacciones de prueba")
 @RestController
 @RequestMapping("v1/api/transferencia")
+@Slf4j
 public class TransactionController {
     @Autowired
     private TransferService transferService;
@@ -41,7 +43,7 @@ public class TransactionController {
         try {
             return ResponseEntity.ok(transferService.transfer(dto));
         }catch (Exception e){
-            e.printStackTrace();
+            log.error("Error al realizar transferencia", e);
             return ResponseEntity.badRequest().build();
         }
 
@@ -58,12 +60,12 @@ public class TransactionController {
                     @ApiResponse(responseCode = "401", description = "Fallo de autentificación", content = @Content(schema = @Schema(hidden = true))),
             }, security = @SecurityRequirement(name = "bearerToken"))
     @GetMapping("/{idTransferencia}")
-    public ResponseEntity<TransferResponseDto> verificar(
+    public ResponseEntity<TransferResponseDto> verifierTransaction(
             @PathVariable("idTransferencia") String idTransferencia) {
         try {
             return ResponseEntity.ok(transferService.verifi(idTransferencia));
         }catch (Exception e){
-            e.printStackTrace();
+            log.error("Error al obtener la transaccion", e);
             return ResponseEntity.badRequest().build();
         }
 
