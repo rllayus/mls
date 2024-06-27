@@ -46,14 +46,15 @@ public class ClientServiceImpl implements ClientService {
             authenticationDto.setUsername(user);
             authenticationDto.setPassword(password);
             jwt = login(url, connectTimeout, readTimeout, authenticationDto).getToken();
+            System.out.println("JWT: "+jwt);
         } catch (Exception e) {
             throw e;
         }
-
+        System.out.println(dto);
         headers.set(HttpHeaders.AUTHORIZATION, "Bearer " + jwt);
         RestTemplate restTemplate = new RestTemplate(getClientHttpRequestFactory(connectTimeout, readTimeout));
         ResponseEntity<TransferResponseDto> response = restTemplate
-                .postForEntity(url + "/v1/api/transferencia",
+                .postForEntity(url + "/api/v1/transferencia",
                         new HttpEntity<>(dto, headers), TransferResponseDto.class);
         return response.getBody();
     }

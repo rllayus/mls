@@ -33,7 +33,7 @@ import static org.springframework.http.ResponseEntity.ok;
 @Tag(name = "auth", description = "API para procesos de autentificación")
 @Slf4j
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/api/v1/authUser")
 public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
