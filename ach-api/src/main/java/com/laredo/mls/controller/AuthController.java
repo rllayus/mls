@@ -25,6 +25,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+
 import static org.springframework.http.ResponseEntity.ok;
 @Tag(name = "auth", description = "API para procesos de autentificación")
 @Slf4j
@@ -59,6 +63,24 @@ public class AuthController {
             @RequestBody AuthenticationDto data) throws Exception {
         try {
             String token = validateAuthData(data);
+
+
+//            for (int i = 0; i <10000; i++) {// lista 100000 acreditaciones
+//
+//                System.out.println("Creando procesos en paralelo");
+//                List<CompletableFuture<Integer>> list = new ArrayList<>();
+//                for (int j = 0; j < 5; j++) {
+//                    list.add(this.userService.methodAsyn());
+//                }
+//                System.out.println("Esperando a que finalicen!!");
+//                for (CompletableFuture<Integer> future: list){
+//                    System.out.println(future.get());
+//                }
+//                System.out.println("Finalizo un grupo de hilos");
+//                System.out.println();
+//                System.out.println();
+//            }
+
             log.info("Sesión iniciada por el usuario: {}", data.getUsername());
             return ok(OKAuthDto.builder()
                     .username(data.getUsername())
