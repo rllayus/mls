@@ -37,51 +37,54 @@ public class TransferServiceImpl implements TransferService {
     public TransferResponseDto transfer(TransferRequestDto dto)  {
         TransferResponseDto response = new TransferResponseDto();
 
-        Optional<Bank> optionalBank = bankService.findByCode(dto.getCodeBankDestination());
+        Optional<Bank> optionalBank = bankService.findByCode(dto.getCodigoBancoDestino());
         if (optionalBank.isEmpty()) {
             response.setStatus(TransactionStatus.ERROR);
             response.setMessage("No se encontró el banco destino");
             return response;
         }
 
-        Optional<Bank> optionalBankOrigin = bankService.findByCode(dto.getCodeBankOrigin());
+        Optional<Bank> optionalBankOrigin = bankService.findByCode(dto.getCodigoBancoOrigen());
         if (optionalBankOrigin.isEmpty()) {
             response.setStatus(TransactionStatus.ERROR);
             response.setMessage("No se encontró el banco Origen");
             return response;
         }
+
         log.info("Guardando en base de datos la transaccion con estado en TRANSITO");
         Bank bankDestino = optionalBank.get();
         Transaction tr = new Transaction();
-        tr.setOriginAccount(dto.getOriginAccount());
-        tr.setOriginName(dto.getOriginName());
-        tr.setDestinationAccount(dto.getDestinationAccount());
-        tr.setDestinationName(dto.getDestinationName());
+        tr.setOriginAccount(dto.getCuentaOrigen());
+        tr.setOriginName(dto.getNombreOrigen());
+        tr.setDestinationAccount(dto.getCuentaDestino());
+        tr.setDestinationName(dto.getNombreDestino());
 
-        tr.setCodeBankDestination(dto.getCodeBankDestination());
-        tr.setCodeBankOrigin(dto.getCodeBankOrigin());
-        tr.setAmount(dto.getAmount());
-        tr.setDescription(dto.getDescription());
+        tr.setCodeBankDestination(dto.getCodigoBancoDestino());
+        tr.setCodeBankOrigin(dto.getCodigoBancoOrigen());
+        tr.setAmount(dto.getImporte());
+        tr.setDescription(dto.getGlosa());
         tr.setBankDestino(bankDestino);
         tr.setStatus(TransactionStatus.EN_TRANSITO);
         transactionService.saveTx(tr);
 
-        if (true) {
-            transactionService.update(tr.getId(), TransactionStatus.PROCESADO, "Transaccion exitosa");
-            response.setTransactionCode(UUID.randomUUID().toString());
-            response.setStatus(TransactionStatus.PROCESADO);
-            response.setMessage("Transaccion exitosa");
-            return response;
-        }
 
         log.info("Transaccion guarado en base de datos");
         String numeroOrdenOriginante = tr.getId();
         dto.setIdMls(tr.getId());
+
+        if(true){
+            response.setTransactionCode(numeroOrdenOriginante);
+            response.setStatus(TransactionStatus.PROCESADO);
+            response.setMessage("Transaccion exitosa");
+            return response;
+        }
         try {
             TransferResponseDto responseDto = clientService.transfer(bankDestino.getUrl(), bankDestino.getConnectTimeout(),
                     bankDestino.getReadTimeout(), bankDestino.getUser(), bankDestino.getPasswordToApi(), dto);
             responseDto.setTransactionCode(tr.getId());
             transactionService.update(tr.getId(), TransactionStatus.PROCESADO, "Transaccion exitosa");
+            System.out.println(responseDto.toString());
+            System.out.println(" Transferencia exitosa");
             return responseDto;
         }catch (ResourceAccessException e) {
             if (e.getMessage() != null && e.getMessage().contains("connect timed out")) {

@@ -22,26 +22,11 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     @Transactional(timeout = 30)
     public TransferResponseDto transfer(TransferRequestDto dto) {
-        Transaction tr = new Transaction();
-        tr.setOriginAccount(dto.getOriginAccount());
-        tr.setOriginName(dto.getOriginName());
-        tr.setDestinationAccount(dto.getDestinationAccount());
-        tr.setDestinationName(dto.getDestinationName());
 
-        tr.setCodeBankDestination(dto.getCodeBankDestination());
-        tr.setCodeBankOrigin(dto.getCodeBankOrigin());
-        tr.setAmount(dto.getAmount());
-        tr.setDescription(dto.getDescription());
-        transactionRespository.save(tr);
-
-
-
-        tr.setDescription("asdasdasdasdas");
-        this.transactionRespository.save(tr);
 
         return TransferResponseDto.builder()
                 .status(TransactionStatus.EN_TRANSITO)
-                .transactionCode(tr.getId())
+                .transactionCode("sadas")
                 .message("Mejoras de ricardo")
                 .build();
     }

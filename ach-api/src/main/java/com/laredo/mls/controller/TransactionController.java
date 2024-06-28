@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "transacciones", description = "API para realizar transacciones de prueba")
 @RestController
-@RequestMapping("v1/api/transferencia")
+@RequestMapping("/api/v1/transferencia")
 @Slf4j
 public class TransactionController {
     @Autowired

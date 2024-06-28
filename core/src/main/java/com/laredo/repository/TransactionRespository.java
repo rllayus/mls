@@ -17,6 +17,7 @@ public interface TransactionRespository extends JpaRepository<Transaction, Strin
     @Modifying
     @Query("UPDATE Transaction t set t.status =:pStatus, t.message =:pMessage where t.id =:pId")
     void updateStatus(@Param("pId") String pId, @Param("pStatus") TransactionStatus pStatus, @Param("pMessage") String pMessage);
+
     @Query("SELECT new com.laredo.dto.response.TransferResponseDto(t.id, t.status, t.message) FROM Transaction t WHERE t.id =:pId")
     Optional<TransferResponseDto> obtenerTransaccion(@Param("pId") String  pId);
 }
