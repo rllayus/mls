@@ -21,9 +21,9 @@ spring:
     open-in-view: false
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/mls_db
-    username: mls
-    password: 123456
+    url: jdbc:postgresql://batyr.db.elephantsql.com:5432/lvtbtotd
+    username: lvtbtotd
+    password: jcnlxfdgjMj5Yhq8OBbPQekUAYxgjYAC
     testOnBorrow: true
     testWhileIdle: true
     timeBetweenEvictionRunsMillis: 60000
