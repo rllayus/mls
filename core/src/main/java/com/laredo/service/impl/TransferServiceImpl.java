@@ -39,15 +39,15 @@ public class TransferServiceImpl implements TransferService {
 
         Optional<Bank> optionalBank = bankService.findByCode(dto.getCodigoBancoDestino());
         if (optionalBank.isEmpty()) {
-            response.setStatus(TransactionStatus.ERROR);
-            response.setMessage("No se encontró el banco destino");
+            response.setEstado(TransactionStatus.ERROR);
+            response.setMensaje("No se encontró el banco destino");
             return response;
         }
 
         Optional<Bank> optionalBankOrigin = bankService.findByCode(dto.getCodigoBancoOrigen());
         if (optionalBankOrigin.isEmpty()) {
-            response.setStatus(TransactionStatus.ERROR);
-            response.setMessage("No se encontró el banco Origen");
+            response.setEstado(TransactionStatus.ERROR);
+            response.setMensaje("No se encontró el banco Origen");
             return response;
         }
 
@@ -64,27 +64,24 @@ public class TransferServiceImpl implements TransferService {
         tr.setAmount(dto.getImporte());
         tr.setDescription(dto.getGlosa());
         tr.setBankDestino(bankDestino);
+        tr.setBankOrigen(optionalBank.get());
         tr.setStatus(TransactionStatus.EN_TRANSITO);
         transactionService.saveTx(tr);
 
 
-        log.info("Transaccion guarado en base de datos");
+        log.info("Transaccion guardado en base de datos");
         String numeroOrdenOriginante = tr.getId();
         dto.setIdMls(tr.getId());
 
-        if(true){
-            response.setTransactionCode(numeroOrdenOriginante);
-            response.setStatus(TransactionStatus.PROCESADO);
-            response.setMessage("Transaccion exitosa");
-            return response;
-        }
         try {
             TransferResponseDto responseDto = clientService.transfer(bankDestino.getUrl(), bankDestino.getConnectTimeout(),
                     bankDestino.getReadTimeout(), bankDestino.getUser(), bankDestino.getPasswordToApi(), dto);
-            responseDto.setTransactionCode(tr.getId());
-            transactionService.update(tr.getId(), TransactionStatus.PROCESADO, "Transaccion exitosa");
-            System.out.println(responseDto.toString());
-            System.out.println(" Transferencia exitosa");
+            responseDto.setCodigoTransaccion(tr.getId());
+            if(responseDto.getEstado().equals(TransactionStatus.PROCESADO)) {
+                transactionService.update(tr.getId(), TransactionStatus.PROCESADO, responseDto.getMensaje());
+            }else {
+                transactionService.update(tr.getId(), TransactionStatus.ERROR, responseDto.getMensaje());
+            }
             return responseDto;
         }catch (ResourceAccessException e) {
             if (e.getMessage() != null && e.getMessage().contains("connect timed out")) {
@@ -101,9 +98,9 @@ public class TransferServiceImpl implements TransferService {
             transactionService.update(tr.getId(), TransactionStatus.ERROR, "Error generico consumir API del Banco");
         }
 
-        response.setStatus(TransactionStatus.ERROR);
-        response.setMessage("Error en la transacción");
-        response.setTransactionCode(numeroOrdenOriginante);
+        response.setEstado(TransactionStatus.ERROR);
+        response.setMensaje("Error en la transacción");
+        response.setCodigoTransaccion(numeroOrdenOriginante);
         return response;
     }
 
@@ -111,12 +108,12 @@ public class TransferServiceImpl implements TransferService {
     @Transactional(readOnly = true)
     public TransferResponseDto verifi(String idTransaccion) {
         Optional<TransferResponseDto> optional = this.transactionService.findById(idTransaccion);
-        if(optional.isEmpty()){
+        if(!optional.isEmpty()){
             return optional.get();
         }
         TransferResponseDto response = new TransferResponseDto();
-        response.setStatus(TransactionStatus.TRANSACCION_NO_ENCONTRADA);
-        response.setMessage("Transaccion no encontrado");
+        response.setEstado(TransactionStatus.TRANSACCION_NO_ENCONTRADA);
+        response.setMensaje("Transaccion no encontrado");
         return response;
     }
 }

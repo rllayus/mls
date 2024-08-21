@@ -26,6 +26,7 @@ public class ClientServiceImpl implements ClientService {
         headers.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
 
         String urlCompleto = url + "/api/v1/authUser/login";
+
         System.out.println(urlCompleto);
         RestTemplate restTemplate = new RestTemplate(getClientHttpRequestFactory(connectTimeout, readTimeout));
         ResponseEntity<OKAuthDto> response = restTemplate
