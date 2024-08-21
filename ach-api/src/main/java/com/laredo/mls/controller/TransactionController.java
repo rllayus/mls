@@ -2,6 +2,7 @@ package com.laredo.mls.controller;
 
 import com.laredo.dto.request.TransferRequestDto;
 import com.laredo.dto.response.TransferResponseDto;
+import com.laredo.enums.TransactionStatus;
 import com.laredo.service.TransactionService;
 import com.laredo.service.TransferService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -44,7 +45,10 @@ public class TransactionController {
             return ResponseEntity.ok(transferService.transfer(dto));
         }catch (Exception e){
             log.error("Error al realizar transferencia", e);
-            return ResponseEntity.badRequest().build();
+            TransferResponseDto response = new TransferResponseDto();
+            response.setEstado(TransactionStatus.ERROR);
+            response.setMensaje("No se encontró el banco destino");
+            return ResponseEntity.ok(transferService.transfer(dto));
         }
 
     }

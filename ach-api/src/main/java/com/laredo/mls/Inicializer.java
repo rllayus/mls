@@ -96,7 +96,7 @@ public class Inicializer implements CommandLineRunner {
             this.bankRespository.save(Bank.builder().code((short) 1002).abbreviation("BANECO").name("Banco Economico").status(BankStatus.ACTIVO).build());
             this.bankRespository.save(Bank.builder().code((short) 1001).abbreviation("BMSC").name("Banco Mercantil").status(BankStatus.ACTIVO).build());
             this.bankRespository.save(Bank.builder().code((short) 1007).abbreviation("BNB").name("Banco Nacional de Bolivia").status(BankStatus.ACTIVO).build());
-
         }
+       // this.bankRespository.save(Bank.builder().code((short) 1008).abbreviation("BCB").name("Banco Central de Bolivia").status(BankStatus.ACTIVO).build());
     }
 }

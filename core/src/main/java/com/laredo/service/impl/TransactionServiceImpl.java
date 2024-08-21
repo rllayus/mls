@@ -25,9 +25,9 @@ public class TransactionServiceImpl implements TransactionService {
 
 
         return TransferResponseDto.builder()
-                .status(TransactionStatus.EN_TRANSITO)
-                .transactionCode("sadas")
-                .message("Mejoras de ricardo")
+                .estado(TransactionStatus.EN_TRANSITO)
+                .codigoTransaccion("sadas")
+                .mensaje("Mejoras de ricardo")
                 .build();
     }
 
@@ -46,6 +46,9 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     @Transactional(readOnly = true)
     public Optional<TransferResponseDto> findById(String id) {
+        System.out.println("id mls");
+        System.out.println(id);
+        System.out.println("al encontrarlo");
         return this.transactionRespository.obtenerTransaccion(id);
     }
 
