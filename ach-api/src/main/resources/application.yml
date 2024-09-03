@@ -29,7 +29,7 @@ spring:
     timeBetweenEvictionRunsMillis: 60000
     minEvictableIdleTimeMillis: 30000
     validationQuery: SELECT 1
-    max-active: 3
+    max-active: 1
     max-idle: 1
     max-wait: 8000
     driverClassName: org.postgresql.Driver

@@ -88,8 +88,8 @@ public class Inicializer implements CommandLineRunner {
             this.userRespository.save(userEntity);
         }
         if(bankRespository.findAll().isEmpty()){
-            this.bankRespository.save(Bank.builder().code((short) 1000).abbreviation("BISA").name("Banco BISA").status(BankStatus.ACTIVO).build());
-            this.bankRespository.save(Bank.builder().code((short) 1005).abbreviation("BG").name("Banco Ganader").status(BankStatus.ACTIVO).build());
+            this.bankRespository.save(Bank.builder().code((short) 1000).abbreviation("BBVA").name("Banco BBVA").status(BankStatus.ACTIVO).build());
+            this.bankRespository.save(Bank.builder().code((short) 1005).abbreviation("RE").name("Revolut").status(BankStatus.ACTIVO).build());
             this.bankRespository.save(Bank.builder().code((short) 1003).abbreviation("BSOL").name("Banco SOL").status(BankStatus.ACTIVO).build());
             this.bankRespository.save(Bank.builder().code((short) 1006).abbreviation("STD").name("Banco Santander").status(BankStatus.ACTIVO).build());
             this.bankRespository.save(Bank.builder().code((short) 1004).abbreviation("BU").name("Banco Union").status(BankStatus.ACTIVO).build());
