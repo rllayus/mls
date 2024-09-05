@@ -77,6 +77,7 @@ public class TransferServiceImpl implements TransferService {
             TransferResponseDto responseDto = clientService.transfer(bankDestino.getUrl(), bankDestino.getConnectTimeout(),
                     bankDestino.getReadTimeout(), bankDestino.getUser(), bankDestino.getPasswordToApi(), dto);
             responseDto.setCodigoTransaccion(tr.getId());
+
             if(responseDto.getEstado().equals(TransactionStatus.PROCESADO)) {
                 transactionService.update(tr.getId(), TransactionStatus.PROCESADO, responseDto.getMensaje());
             }else {
