@@ -21,9 +21,9 @@ spring:
     open-in-view: false
 
   datasource:
-    url: jdbc:postgresql://batyr.db.elephantsql.com:5432/lvtbtotd
-    username: lvtbtotd
-    password: jcnlxfdgjMj5Yhq8OBbPQekUAYxgjYAC
+    url: jdbc:postgresql://raja.db.elephantsql.com:5432/pfxipksk
+    username: pfxipksk
+    password: tHuAwAuj5iMvtaB8J2GNC2v-Kkz78geF
     testOnBorrow: true
     testWhileIdle: true
     timeBetweenEvictionRunsMillis: 60000
