@@ -25,7 +25,7 @@ public class ClientServiceImpl implements ClientService {
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
 
-        String urlCompleto = url + "/api/v1/authUser/login";
+        String urlCompleto = url + "/api/v1/auth/login";
 
         System.out.println(urlCompleto);
         RestTemplate restTemplate = new RestTemplate(getClientHttpRequestFactory(connectTimeout, readTimeout));
@@ -47,7 +47,6 @@ public class ClientServiceImpl implements ClientService {
             authenticationDto.setUsername(user);
             authenticationDto.setPassword(password);
             jwt = login(url, connectTimeout, readTimeout, authenticationDto).getToken();
-            System.out.println("JWT: "+jwt);
         } catch (Exception e) {
             throw e;
         }
